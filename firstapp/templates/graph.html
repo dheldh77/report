@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+    {% for key, value in fact_cnt.items %}
+        <input id="{{key}}" type="hidden" value="{{value}}">
+    {% endfor %}
+    
+    <section style="max-width: 1000px; margin:auto;" class="graph">
+        <canvas id="fact_cnt"></canvas>
+    </section>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script>
+        var ctx = document.getElementById('fact_cnt');
+        // 공장 숫자 받을 배열 생성
+        var fact_arr = new Array();
+
+        // 딕셔너리 값 넘겨 받아옴
+        fact1 = $('#제선').val();
+        fact2 = $('#제강').val();
+        fact3 = $('#압연').val();
+        fact_arr.push(fact1);
+        fact_arr.push(fact2);
+        fact_arr.push(fact3);
+
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['제선', '제강', '압연'],
+                datasets: [{
+                    label: '공장별 보고 수',
+                    data: fact_arr,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        //'rgba(75, 192, 192, 0.2)',
+                        //'rgba(153, 102, 255, 0.2)',
+                        //'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        //'rgba(75, 192, 192, 1)',
+                        //'rgba(153, 102, 255, 1)',
+                        //'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
+{% endblock content %}

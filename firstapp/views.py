@@ -68,7 +68,16 @@ def input(request):
         styles["Title"].alignment = 0
 
         # 내용 쓰기
-        pdf_content = "공장명 : " + record.fact + "<br/><br/>" + "공정명 : " + record.line + "<br/><br/>" + "날짜 : " + record.date + "<br/><br/>" + "원인 : "
+        pdf_content = ("공 장 명 : " + record.fact + "<br/><br/>" + 
+                        "공 정 명 : " + record.line + "<br/><br/>" + 
+                        "날   짜 : " + str(record.date) + "<br/><br/>" + 
+                        "Maker : " + record.maker + "<br/><br/>" +
+                        "model : " + record.model + "<br/><br/>" +
+                        "고장부분 : " + record.part + "<br/><br/>" +
+                        "fault명 : " + record.fault + "<br/><br/>" +
+                        "원   인 : " + record.cause + "<br/><br/>" +
+                        "현   상 : " + record.phenomenon + "<br/><br/>" +
+                        "조치내용 : " + record.measure + "<br/><br/>")
         para = Paragraph(pdf_content, styles["Title"])
         p = canvas.Canvas(buffer)
 
@@ -77,7 +86,7 @@ def input(request):
         
         #
         para.wrap(width, height)
-        para.drawOn(p, 50, height/2)
+        para.drawOn(p, 50, height/4)
 
         # 저장
         p.save()
@@ -123,3 +132,18 @@ def createCsv(request):
     
     MakeCSV(list_records)
     return redirect('list')
+
+def graph(request):
+    records = Record.objects.all().order_by('-id')
+    # 전체 수
+    total = 0
+
+    # 전체 공장수
+    fact_cnt = {"제선":0, "제강":0, "압연":0}
+
+    for record in records:
+        total += 1
+        fact_cnt[record.fact] += 1
+
+
+    return render(request, 'graph.html', {'fact_cnt' : fact_cnt})
