@@ -25,4 +25,5 @@ urlpatterns = [
     path('input/', firstapp.views.input, name="input"),
     path('list/', firstapp.views.list, name="list"),
     path('list/search', firstapp.views.search, name="search"),
+    path('createCsv', firstapp.views.createCsv, name="createCsv")
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

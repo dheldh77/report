@@ -9,6 +9,7 @@ from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.rl_config import defaultPageSize
 from reportlab.platypus import Paragraph
 from reportlab.lib.styles import ParagraphStyle
+from .create_csv import MakeCSV
 
 def home(request):
     return render(request, "home.html")
@@ -74,3 +75,19 @@ def input(request):
     else:
         record = Record()
     return render(request, 'input.html', {'record':record})
+
+def createCsv(request):
+    records = Record.objects.all()
+    list_records = []
+
+    for record in records:
+        record_dic = {}
+        record_dic["tmp1"] = record.tmp1
+        record_dic["tmp2"] = record.tmp2
+        record_dic["tmp3"] = record.tmp3
+        record_dic["tmp4"] = record.tmp4
+        record_dic["tmp5"] = record.tmp5
+        list_records.append(record_dic)
+    
+    MakeCSV(list_records)
+    return redirect('list')
