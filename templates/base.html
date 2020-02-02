@@ -18,13 +18,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </head>
 <body>
-    <nav>
+    <nav class="blue darken-4">
         <div style="max-width:1000px; margin:auto;"class="nav-wrapper">
-            <a href="#" class="brand-logo">Logo</a>
+            <a href="{% url 'home' %}" class="brand-logo">POSCO</a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a href="{% url 'input' %}">input</a></li>
-            <li><a href="{% url 'list' %}">list</a></li>
-            <li><a href="collapsible.html">JavaScript</a></li>
+            <li><a href="{% url 'input' %}">데이터 입력</a></li>
+            <li><a href="{% url 'list' %}">데이터 목록</a></li>
+            <li><a href="collapsible.html">그래프</a></li>
             </ul>
         </div>
     </nav>

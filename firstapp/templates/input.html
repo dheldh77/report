@@ -5,47 +5,82 @@
         <div class="row">
             <form action="{% url 'input' %}" method="POST" class="col s12">
                 {% csrf_token %}
-                <div class="input-field col s12">
-                    <select name="tmp1">
-                        <option value="" disabled selected>tmp1</option>
-                        <option value="1">Option 1</option>
-                        <option value="2">Option 2</option>
-                        <option value="3">Option 3</option>
-                    </select>
-                    <label>Materialize Select</label>
-                </div>
-                <div class="input-field col s12">
-                    <select name="tmp2">
-                        <option value="" disabled selected>tmp2</option>
-                        <option value="1">Option 1</option>
-                        <option value="2">Option 2</option>
-                        <option value="3">Option 3</option>
-                    </select>
-                    <label>Materialize Select</label>
-                </div>
-                <div class="input-field col s12">
-                    <select name="tmp3">
-                        <option value="" disabled selected>tmp3</option>
-                        <option value="1">Option 1</option>
-                        <option value="2">Option 2</option>
-                        <option value="3">Option 3</option>
-                    </select>
-                    <label>Materialize Select</label>
+                <div class="row">
+                    <div class="input-field col s4">
+                        <select name="fact">
+                            <option value="" disabled selected>공장명</option>
+                            <option value="제선">제선</option>
+                            <option value="제강">제강</option>
+                            <option value="압연">압연</option>
+                        </select>
+                    </div>
+                    <div class="input-field col s4">
+                        <select name="line">
+                            <option value="" disabled selected>공정명</option>
+                            <option value="1">Option 1</option>
+                            <option value="2">Option 2</option>
+                            <option value="3">Option 3</option>
+                        </select>
+                    </div>
+                    <div class="input-field col s4">
+                        <select name="maker">
+                            <option value="" disabled selected>Maker</option>
+                            <option value="1">Option 1</option>
+                            <option value="2">Option 2</option>
+                            <option value="3">Option 3</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="row">
-                    <div class="input-field col s6">
-                        <input name="tmp4" placeholder="Placeholder" id="first_name" type="text" class="validate">
-                        <label for="first_name">tmp4</label>
+                    <div class="input-field col s4">
+                        <select name="model">
+                            <option value="" disabled selected>Model</option>
+                            <option value="1">Option 1</option>
+                            <option value="2">Option 2</option>
+                            <option value="3">Option 3</option>
+                        </select>
                     </div>
-                    <div class="input-field col s6">
-                        <input name="tmp5" id="last_name" type="text" class="validate">
-                        <label for="last_name">tmp5</label>
+                    <div class="input-field col s4">
+                        <select name="part">
+                            <option value="" disabled selected>장애부위</option>
+                            <option value="1">Option 1</option>
+                            <option value="2">Option 2</option>
+                            <option value="3">Option 3</option>
+                        </select>
+                    </div>
+                    <div class="input-field col s4">
+                        <select name="fault">
+                            <option value="" disabled selected>fault명</option>
+                            <option value="1">Option 1</option>
+                            <option value="2">Option 2</option>
+                            <option value="3">Option 3</option>
+                        </select>
                     </div>
                 </div>
-              {% comment %} <input type="submit" class="btn btn-dark" name="report" value="submit"> {% endcomment %}
-              {% comment %} <input type="submit" class="btn btn-dark" name="submit" value="submit"> {% endcomment %}
-                <button type="submit" class="btn btn-dark" name="report">보고서</button>
-                <button type="submit" class="btn btn-dark" name="save">저장</button>
+                
+                
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input name="cause" placeholder="원인을 입력하세요" id="first_name" type="text" class="validate">
+                        <label for="first_name">원인</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input name="phenomenon" placeholder="현상을 입력하세요" id="first_name" type="text" class="validate">
+                        <label for="first_name">현상</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input name="measure" placeholder="조치내용을 입력하세요" id="first_name" type="text" class="validate">
+                        <label for="first_name">조치내용</label>
+                    </div>
+                </div>
+                <div style="text-align: right;" class="submit">
+                    <button type="submit" class="btn btn-dark blue darken-4" name="report">보고서 출력</button>
+                    <button type="submit" class="btn btn-dark blue darken-4" name="save">기록 저장</button>
+                </div>
             </form>
           </div>
     </section>

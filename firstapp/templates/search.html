@@ -2,37 +2,79 @@
 {% block content %}
 {% load static %}
     <section style="padding-top: 100px; padding-bottom: 100px; max-width: 1000px; margin:auto;" class="list">
-        <form style="align-items: center; display:flex;" action="{% url 'search' %}">
-            <div class="input-field col s12">
-                <select name='tmp1'>
-                <option value="" disabled selected>Choose your option</option>
+        <form style="align-items: center; justify-content: space-between; display:flex;" action="{% url 'search' %}">
+            <div style="margin-right:10px; " class="input-field col s3">
+                <select name='fact'>
+                <option value="0">공장명</option>
                 <option value="제선">제선</option>
                 <option value="제강">제강</option>
                 <option value="압연">압연</option>
                 </select>
             </div>
-            <button type="submit" class="waves-effect waves-light btn">button</button>
+            <div style="margin-right:10px; " class="input-field col s3">
+                <select name='line'>
+                <option value="0">공정명</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                </select>
+            </div>
+            <div style="margin-right:10px; " class="input-field col s3">
+                <select name='maker'>
+                <option value="0">Maker</option>
+                <option value="1">2</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                </select>
+            </div>
+            <div style="margin-right:10px; " class="input-field col s3">
+                <select name='model'>
+                <option value="0">Model</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                </select>
+            </div>
+            
+            <button type="submit" class="waves-effect waves-light btn blue darken-4">검색</button>
         </form>
-        <table>
-            <thead>
-              <tr>
-                  <th>공장명</th>
-                  <th>공정명</th>
-                  <th>회사명</th>
-                  <th>원인</th>
-                  <th>현상</th>
-              </tr>
-            </thead>    
-            <tbody>
-                {% for record in records %}
-                    <td>{{ record.tmp1 }}</td>
-                    <td>{{ record.tmp2 }}</td>
-                    <td>{{ record.tmp3 }}</td>
-                    <td>{{ record.tmp4 }}</td>
-                    <td>{{ record.tmp5 }}</td>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div>
+            <table>
+                <thead>
+                  <tr>
+                      <th>공장명</th>
+                      <th>공정명</th>
+                      <th>장애발생시각</th>
+                      <th>Maker</th>
+                      <th>Model</th>
+                      <th>장애부분</th>
+                      <th>fault명</th>
+                      <th>원인</th>
+                      <th>현상</th>
+                      <th>조치내용</th>
+                  </tr>
+                </thead>    
+                <tbody>
+                    {% for record in records %}
+                        <tr>
+                            <td>{{ record.fact }}</td>
+                            <td>{{ record.line }}</td>
+                            <td>{{ record.date }}</td>
+                            <td>{{ record.maker }}</td>
+                            <td>{{ record.model }}</td>
+                            <td>{{ record.part }}</td>
+                            <td>{{ record.fault }}</td>
+                            <td>{{ record.cause }}</td>
+                            <td>{{ record.phenomenon }}</td>
+                            <td>{{ record.measure }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div style="text-align: right; margin-top: 50px; margin-bottom:50px;">
+            <a href="{% url 'createCsv' %}" class="waves-effect waves-light btn blue darken-4">CSV 추출</a>
+        </div>
     </section>
     <script>
         $(document).ready(function(){

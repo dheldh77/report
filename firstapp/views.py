@@ -10,15 +10,31 @@ from reportlab.rl_config import defaultPageSize
 from reportlab.platypus import Paragraph
 from reportlab.lib.styles import ParagraphStyle
 from .create_csv import MakeCSV
+from django.utils import timezone
 
 def home(request):
     return render(request, "home.html")
 # Create your views here.
 
 def search(request):
-    tmp1_value = request.GET['tmp1']
-    records = Record.objects.all().filter(tmp1=tmp1_value)
-    print(tmp1_value)
+    # 각 속성값이 0이 아닌 value check
+    fact_value = request.GET['fact']
+    fact_line = request.GET['line']
+    fact_maker = request.GET['maker']
+    fact_model = request.GET['model']
+
+    records = Record.objects.all()
+
+    # 0이 아닌 속성만 필터링
+    if fact_value != '0':
+        records = records.filter(fact=fact_value)
+    if fact_line != '0':
+        records = records.filter(line=fact_line)
+    if fact_maker != '0':
+        records = records.filter(maker=fact_maker)
+    if fact_model != '0':
+        records = records.filter(model=fact_model)
+
     return render(request, "search.html", {'records' : records})
 
 def list(request):
@@ -30,11 +46,17 @@ def input(request):
     # pdf 추출
     if request.method == 'POST' and 'report' in request.POST:
         record = Record()
-        record.tmp1 = request.POST['tmp1']
-        record.tmp2 = request.POST['tmp2']
-        record.tmp3 = request.POST['tmp3']
-        record.tmp4 = request.POST['tmp4']
-        record.tmp5 = request.POST['tmp5']
+        record.fact = request.POST['fact']
+        record.line = request.POST['line']
+        record.date = timezone.now()
+        record.maker = request.POST['maker']
+        record.model = request.POST['model']
+        record.part = request.POST['part']
+        record.fault = request.POST['fault']
+        record.cause = request.POST['cause']
+        record.phenomenon = request.POST['phenomenon']
+        record.measure = request.POST['measure']
+
         # 버퍼 만들고 스타일 저장
         buffer = io.BytesIO()
         font_file = './NanumMyeongjo-YetHangul.ttf'
@@ -46,7 +68,7 @@ def input(request):
         styles["Title"].alignment = 0
 
         # 내용 쓰기
-        pdf_content = "공장명 : " + record.tmp1 + "<br/><br/>" + "공정명 : " + record.tmp2 + "<br/><br/>" + "날짜 : " + record.tmp3 + "<br/><br/>" + "원인 : " + record.tmp4 + "<br/><br/>" + "현상 : " + record.tmp5
+        pdf_content = "공장명 : " + record.fact + "<br/><br/>" + "공정명 : " + record.line + "<br/><br/>" + "날짜 : " + record.date + "<br/><br/>" + "원인 : "
         para = Paragraph(pdf_content, styles["Title"])
         p = canvas.Canvas(buffer)
 
@@ -64,11 +86,16 @@ def input(request):
         return FileResponse(buffer, as_attachment=True, filename='report.pdf')
     elif request.method == 'POST' and 'save' in request.POST:
         record = Record()
-        record.tmp1 = request.POST['tmp1']
-        record.tmp2 = request.POST['tmp2']
-        record.tmp3 = request.POST['tmp3']
-        record.tmp4 = request.POST['tmp4']
-        record.tmp5 = request.POST['tmp5']
+        record.fact = request.POST['fact']
+        record.line = request.POST['line']
+        record.date = timezone.now()
+        record.maker = request.POST['maker']
+        record.model = request.POST['model']
+        record.part = request.POST['part']
+        record.fault = request.POST['fault']
+        record.cause = request.POST['cause']
+        record.phenomenon = request.POST['phenomenon']
+        record.measure = request.POST['measure']
         record.save()
         return redirect('list')
     # get 요청 시
@@ -82,11 +109,16 @@ def createCsv(request):
 
     for record in records:
         record_dic = {}
-        record_dic["tmp1"] = record.tmp1
-        record_dic["tmp2"] = record.tmp2
-        record_dic["tmp3"] = record.tmp3
-        record_dic["tmp4"] = record.tmp4
-        record_dic["tmp5"] = record.tmp5
+        record_dic["fact"] = record.fact
+        record_dic["line"] = record.line
+        record_dic["date"] = record.date
+        record_dic["maker"] = record.maker
+        record_dic["model"] = record.model
+        record_dic["part"] = record.part
+        record_dic["fault"] = record.fault
+        record_dic["cause"] = record.cause
+        record_dic["phenomenon"] = record.phenomenon
+        record_dic["measure"] = record.measure
         list_records.append(record_dic)
     
     MakeCSV(list_records)
