@@ -14,6 +14,16 @@ def home(request):
     return render(request, "home.html")
 # Create your views here.
 
+def search(request):
+    tmp1_value = request.GET['tmp1']
+    records = Record.objects.all().filter(tmp1=tmp1_value)
+    print(tmp1_value)
+    return render(request, "search.html", {'records' : records})
+
+def list(request):
+    records = Record.objects.all().order_by('-id')
+    return render(request, "list.html", {'records' : records})
+
 def input(request):
     # post 요청 시
     # pdf 추출
@@ -59,38 +69,8 @@ def input(request):
         record.tmp4 = request.POST['tmp4']
         record.tmp5 = request.POST['tmp5']
         record.save()
-        return redirect('home')
+        return redirect('list')
     # get 요청 시
     else:
         record = Record()
     return render(request, 'input.html', {'record':record})
-
-
-
-def create(request):
-    # Create a file-like buffer to receive PDF data.
-    buffer = io.BytesIO()
-    # Create the PDF object, using the buffer as its "file."
-    p = canvas.Canvas(buffer)
-
-    
-
-    first = request.GET('first_name')
-    last = request.GET('last_name')
-    pw = request.GET('password')
-    email = request.GET('email')
-
-    text = first + '\n' + last + '\n' + pw + '\n' + email
-
-    # Draw things on the PDF. Here's where the PDF generation happens.
-    # See the ReportLab documentation for the full list of functionality.
-    p.drawString(100, 100, text)
-
-    # Close the PDF object cleanly, and we're done.
-    p.showPage()
-    p.save()
-
-    # FileResponse sets the Content-Disposition header so that browsers
-    # present the option to save the file.
-    buffer.seek(0)
-    return FileResponse(buffer, as_attachment=True, filename='hello.pdf')

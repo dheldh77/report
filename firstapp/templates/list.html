@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+    <section style="padding-top: 100px; padding-bottom: 100px; max-width: 1000px; margin:auto;" class="list">
+        <form style="align-items: center; display:flex;" action="{% url 'search' %}">
+            <div class="input-field col s12">
+                <select name='tmp1'>
+                <option value="" disabled selected>Choose your option</option>
+                <option value="제선">제선</option>
+                <option value="제강">제강</option>
+                <option value="압연">압연</option>
+                </select>
+            </div>
+            <button type="submit" class="waves-effect waves-light btn">button</button>
+        </form>
+        <table>
+            <thead>
+              <tr>
+                  <th>공장명</th>
+                  <th>공정명</th>
+                  <th>회사명</th>
+                  <th>원인</th>
+                  <th>현상</th>
+              </tr>
+            </thead>    
+            <tbody>
+                {% for record in records %}
+                    <td>{{ record.tmp1 }}</td>
+                    <td>{{ record.tmp2 }}</td>
+                    <td>{{ record.tmp3 }}</td>
+                    <td>{{ record.tmp4 }}</td>
+                    <td>{{ record.tmp5 }}</td>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+    <script>
+        $(document).ready(function(){
+            $('select').formSelect();
+          });
+    </script>
+{% endblock content %}
